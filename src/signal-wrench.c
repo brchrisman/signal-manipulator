@@ -38,7 +38,7 @@ int main ( int argc, char **argv )
         exit(1);
     }
 
-    if (! strcmp(signalHandlerDisposition, "SIG_IGN") && ! strcmp(signalHandlerDisposition, "SIG_DFL"))
+    if (! strncmp(signalHandlerDisposition, "SIG_IGN", 8) && ! strncmp(signalHandlerDisposition, "SIG_DFL", 8))
     {
         fprintf(stderr, "Disposition must be SIG_IGN or SIG_DFL, not (%s).\n", signalHandlerDisposition);
         exit(1);
@@ -48,7 +48,7 @@ int main ( int argc, char **argv )
 
     for (i = 1; i < 32; i++)
     {
-        if (strcmp(signalString, strsignal(i))) // strncmp
+        if (strncmp(signalString, strsignal(i), strlen(strsignal(i))))
         {
             signalNumber = i;
             break;
@@ -61,7 +61,7 @@ int main ( int argc, char **argv )
         exit(1);
     }
 
-    if (strcmp(signalHandlerDisposition, "SIG_IGN"))
+    if (strncmp(signalHandlerDisposition, "SIG_IGN", 8))
     {
         if (signal(signalNumber, SIG_IGN) == SIG_ERR)
         {
